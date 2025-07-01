@@ -51,8 +51,10 @@
       const minutes = Math.floor((totalSeconds % 3600) / 60);
       const seconds = totalSeconds % 60;
 
+      const secFormatted = seconds < 10 ? '0' + seconds : seconds;
+
       document.getElementById("countdown").innerHTML =
-        `Nog ${days}d ${hours}u ${minutes}m ${seconds < 10 ? '0' : ''}{seconds}s tot de start!`;
+        `Nog ${days}d ${hours}u ${minutes}m ${secFormatted}s tot de start!`;
 
       setTimeout(updateCountdown, 1000);
     }
