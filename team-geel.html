@@ -1,95 +1,156 @@
-
 <!DOCTYPE html>
+
 <html lang="nl">
 <head>
-    <meta charset="UTF-8">
-    <title>Quiz Team Geel</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {{
-            font-family: Arial, sans-serif;
-            background: #f8f9fa;
-            text-align: center;
-            padding: 20px;
-            color: #333;
-        }}
-        h1 {{
-            font-size: 2em;
-        }}
-        h1 span {{
-            color: goldenrod;
-        }}
-        .button {{
-            margin: 10px;
-            padding: 15px 30px;
-            font-size: 1em;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }}
-        .quiz-button {{
-            background-color: #28a745;
-            color: white;
-        }}
-        .map-button {{
-            background-color: #ffc107;
-            color: black;
-        }}
-        .spotify {{
-            margin-top: 30px;
-        }}
-        iframe {{
-            max-width: 100%;
-            border: none;
-        }}
-        .weather {{
-            margin-top: 20px;
-            font-weight: bold;
-        }}
-    </style>
-    <script>
-        function redirect(link) {{
-            window.open(link, '_blank');
-        }}
-
-        function updateCountdown() {{
-            var eventDate = new Date("2025-07-03T15:30:00+0200").getTime();
-            var now = new Date().getTime();
-            var diff = eventDate - now;
-
-            if (diff <= 0) {{
-                window.location.href = "https://forms.office.com/e/eictNGmQyz";
-                return;
-            }}
-
-            var days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            var hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-            document.getElementById("countdown").innerHTML =
-                `Nog ${days}d ${hours}u ${minutes}m ${seconds}s tot de start!`;
-        }}
-        setInterval(updateCountdown, 1000);
-        window.onload = updateCountdown;
-    </script>
-</head>
+<meta charset="utf-8"/>
+<title>Quiz Unlock – Team Geel</title>
+<style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #f8f9fa, #e9ecef);
+      text-align: center;
+      padding: 40px;
+      color: #343a40;
+    }
+    h1 {
+      font-size: 2.2rem;
+    }
+    #countdown {
+      font-size: 1.5rem;
+      color: #ffca28;
+      margin-top: 20px;
+    }
+    a.button {
+      display: inline-block;
+      margin: 15px;
+      font-size: 1.2rem;
+      padding: 12px 24px;
+      background-color: #28a745;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+    }
+    #mapsLink {
+      background-color: #ffc107;
+      color: #212529;
+    }
+  </style>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/><style>
+body {
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+  padding: 20px;
+  margin: 0;
+  background: #fefefe;
+}
+h1 {
+  font-size: 5vw;
+}
+.countdown {
+  font-size: 6vw;
+  margin: 20px 0;
+}
+button {
+  font-size: 4vw;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  background-color: #f04e30;
+  color: white;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+button.enabled {
+  cursor: pointer;
+  opacity: 1;
+}
+@keyframes confetti {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(100vh) rotate(360deg); }
+}
+.confetti-piece {
+  width: 10px;
+  height: 10px;
+  position: fixed;
+  background: #f04e30;
+  animation: confetti 2s ease-out forwards;
+}
+</style></head>
 <body>
-    <h1>⏰ De quiz voor <span>Team Geel</span> is bijna beschikbaar!</h1>
-    <p>De route opent automatisch op <strong>3 juli 2025 om 15:30 uur</strong>.</p>
-    <p id="countdown" style="color:goldenrod; font-size: 1.4em;"></p>
+<h1>⏰ De quiz voor <span style="color: #ffca28;">Team Geel</span> is bijna beschikbaar!</h1>
+<p>De route opent automatisch op <strong>3 juli 2025 om 15:30 uur</strong>.</p>
+<p id="countdown">Even geduld...</p>
+<a class="button" href="#" id="startButton">🚀 Start de Quiz</a>
+<a class="button" href="#" id="mapsLink">📍 Google Maps Route</a>
+<canvas id="confetti-canvas" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none;"></canvas>
+<script>
+    const countdownEl = document.getElementById('countdown');
+    const startBtn = document.getElementById('startButton');
+    const mapsLink = document.getElementById('mapsLink');
+    const targetDate = new Date("2025-07-03T15:30:00+02:00");
+    let linksEnabled = false;
 
-    <button class="button quiz-button" onclick="redirect('https://forms.office.com/e/eictNGmQyz')">🚀 Start de Quiz</button>
-    <button class="button map-button" onclick="redirect('https://maps.app.goo.gl/jFqw6443zhepBNDT9')">📍 Google Maps Route</button>
+    function updateCountdown() {
+      const now = new Date();
+      const diff = targetDate - now;
 
-    <div class="spotify">
-        <h2>Lekker in de sfeer komen 🎉</h2>
-        <iframe src="https://open.spotify.com/embed/playlist/2179FQPLh7W3AJHo8yDwzK" width="300" height="380" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-    </div>
+      if (diff <= 0 && !linksEnabled) {
+        countdownEl.innerHTML = "Het is tijd!";
+        startBtn.href = "https://forms.gle/quizlink_geel";
+        mapsLink.href = "https://www.google.com/maps/dir/Boschstraat+30,+Maastricht/Achter+Het+Vleeshuis+13,+Maastricht";
+        linksEnabled = true;
+      } else if (!linksEnabled) {
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const m = Math.floor((diff / (1000 * 60)) % 60);
+        const s = Math.floor((diff / 1000) % 60);
+        countdownEl.innerHTML = `Nog ${d}d ${h}u ${m}m ${s}s tot de start!`;
 
-    <div class="weather">
-        <p>Vergeet je paraplu niet? 🌧️</p>
-        <a href="https://www.weeronline.nl/Europa/Nederland/Landgraaf/4052033" target="_blank">Weersvoorspelling per uur</a>
-    </div>
+        startBtn.onclick = (e) => { e.preventDefault(); alert("Nog even geduld! De quiz start pas om 15:30 uur."); };
+        mapsLink.onclick = (e) => { e.preventDefault(); alert("Nog even geduld! De route opent pas om 15:30 uur."); };
+      }
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script><script>
+function startConfetti() {
+  for (let i = 0; i < 30; i++) {
+    const div = document.createElement('div');
+    div.className = 'confetti-piece';
+    div.style.left = Math.random() * 100 + 'vw';
+    div.style.backgroundColor = ['#f04e30', '#f1c40f', '#2ecc71'][Math.floor(Math.random()*3)];
+    div.style.animationDuration = (1 + Math.random()) + 's';
+    document.body.appendChild(div);
+    setTimeout(() => div.remove(), 3000);
+  }
+}
+</script>
+<!-- 🎶 Spotify Fiesta Playlist -->
+<div style="margin-top: 30px;">
+  <h3>Lekker in de sfeer komen 🎉</h3>
+  <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DWYcDQ1hSjOpY?utm_source=generator"
+  width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+</div>
+
+
+<!-- 🌤️ Weerbericht Maastricht -->
+<div style="margin-top: 30px;">
+  <h3>Vergeet je paraplu niet? 🌦️</h3>
+  <a class="weatherwidget-io" href="https://forecast7.com/en/50d851-5d69/maastricht/" data-label_1="MAASTRICHT" data-label_2="WEATHER"
+  data-font="Arial" data-icons="Climacons Animated" data-theme="original">MAASTRICHT WEATHER</a>
+</div>
+<script>
+!function(d,s,id){
+  var js,fjs=d.getElementsByTagName(s)[0];
+  if(!d.getElementById(id)){
+    js=d.createElement(s);js.id=id;
+    js.src='https://weatherwidget.io/js/widget.min.js';
+    fjs.parentNode.insertBefore(js,fjs);
+  }
+}(document,'script','weatherwidget-io-js');
+</script>
+
 </body>
 </html>
