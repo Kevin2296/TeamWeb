@@ -1,9 +1,10 @@
 <!DOCTYPE html>
+
 <html lang="nl">
 <head>
-  <meta charset="UTF-8">
-  <title>Quiz Unlock – Team Blauw</title>
-  <style>
+<meta charset="utf-8"/>
+<title>Quiz Unlock – Team Blauw</title>
+<style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(to right, #f8f9fa, #e9ecef);
@@ -36,16 +37,13 @@
   </style>
 </head>
 <body>
-  <h1>⏰ De quiz voor <span style="color: #007bff;">Team Blauw</span> is bijna beschikbaar!</h1>
-  <p>De route opent automatisch op <strong>3 juli 2025 om 15:30 uur</strong>.</p>
-  <p id="countdown">Even geduld...</p>
-
-  <a id="startButton" href="#" class="button">🚀 Start de Quiz</a>
-  <a id="mapsLink" href="#" class="button">📍 Google Maps Route</a>
-
-  <canvas id="confetti-canvas" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none;"></canvas>
-
-  <script>
+<h1>⏰ De quiz voor <span style="color: #007bff;">Team Blauw</span> is bijna beschikbaar!</h1>
+<p>De route opent automatisch op <strong>3 juli 2025 om 15:30 uur</strong>.</p>
+<p id="countdown">Even geduld...</p>
+<a class="button" href="#" id="startButton">🚀 Start de Quiz</a>
+<a class="button" href="#" id="mapsLink">📍 Google Maps Route</a>
+<canvas id="confetti-canvas" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none;"></canvas>
+<script>
     const countdownEl = document.getElementById('countdown');
     const startBtn = document.getElementById('startButton');
     const mapsLink = document.getElementById('mapsLink');
