@@ -2,72 +2,94 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quiz - Team Rood</title>
+    <meta charset="UTF-8">
+    <title>Quiz Team Rood</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {{
-            font-family: 'Segoe UI', sans-serif;
-            background: #f9f9f9;
-            margin: 0;
-            padding: 1rem;
+            font-family: Arial, sans-serif;
+            background: #f8f9fa;
             text-align: center;
+            padding: 20px;
+            color: #333;
         }}
         h1 {{
-            color: #ff3c41;
+            font-size: 2em;
+        }}
+        h1 span {{
+            color: red;
         }}
         .button {{
-            margin: 1rem;
-            padding: 1rem 2rem;
+            margin: 10px;
+            padding: 15px 30px;
+            font-size: 1em;
             border: none;
             border-radius: 8px;
-            font-size: 1.2rem;
             cursor: pointer;
+        }}
+        .quiz-button {{
+            background-color: #28a745;
             color: white;
         }}
-        .quiz-button {{ background-color: #28a745; }}
-        .maps-button {{ background-color: #ffc107; color: black; }}
-        iframe {{
-            border-radius: 12px;
-            margin: 1rem auto;
-            width: 100%;
-            max-width: 600px;
-            height: 152px;
+        .map-button {{
+            background-color: #ffc107;
+            color: black;
         }}
-        img {{
-            margin: 1rem auto;
-            width: 100%;
-            max-width: 600px;
-            border-radius: 12px;
+        .spotify {{
+            margin-top: 30px;
+        }}
+        iframe {{
+            max-width: 100%;
+            border: none;
+        }}
+        .weather {{
+            margin-top: 20px;
+            font-weight: bold;
         }}
     </style>
-</head>
-<body>
-    <h1>📣 De quiz voor <span style="color:#ff3c41">Team Rood</span> is bijna beschikbaar!</h1>
-    <p>De route opent automatisch op <strong>3 juli 2025 om 15:30 uur</strong>.</p>
-    <div id="countdown" style="font-size: 1.5rem; color:#ff3c41; margin-bottom: 1rem;"></div>
-    <button class="button quiz-button" onclick="window.location.href='https://forms.office.com/e/eictNGmQyz'">🚀 Start de Quiz</button>
-    <button class="button maps-button" onclick="window.location.href='https://maps.app.goo.gl/5gWngVYMJ69k84eT6'">📍 Google Maps Route</button>
-    <h2> Lekker in de sfeer komen 🎉</h2>
-    <iframe src="https://open.spotify.com/embed/playlist/2179FQPLh7W3AJHo8yDwzK?utm_source=generator" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-    <h3> Vergeet je paraplu niet? 🌧️</h3>
-    <p><a href="https://www.weeronline.nl/Europa/Nederland/Landgraaf/4058349" target="_blank">Weersvoorspelling per uur</a></p>
     <script>
-        const endTime = new Date("2025-07-03T13:30:00Z").getTime();
-        const countdown = document.getElementById("countdown");
-        setInterval(() => {{
-            const now = new Date().getTime();
-            const distance = endTime - now;
-            if (distance <= 0) {{
-                countdown.innerText = "De quiz is gestart!";
+        function redirect(link) {{
+            window.open(link, '_blank');
+        }}
+
+        function updateCountdown() {{
+            var eventDate = new Date("2025-07-03T15:30:00+0200").getTime();
+            var now = new Date().getTime();
+            var diff = eventDate - now;
+
+            if (diff <= 0) {{
+                window.location.href = "https://forms.office.com/e/eictNGmQyz";
                 return;
             }}
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            countdown.innerText = `Nog ${days}d ${hours}u ${minutes}m ${seconds}s tot de start!`;
-        }}, 1000);
+
+            var days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById("countdown").innerHTML =
+                `Nog ${days}d ${hours}u ${minutes}m ${seconds}s tot de start!`;
+        }}
+        setInterval(updateCountdown, 1000);
+        window.onload = updateCountdown;
     </script>
+</head>
+<body>
+    <h1>⏰ De quiz voor <span>Team Rood</span> is bijna beschikbaar!</h1>
+    <p>De route opent automatisch op <strong>3 juli 2025 om 15:30 uur</strong>.</p>
+    <p id="countdown" style="color:red; font-size: 1.4em;"></p>
+
+    <button class="button quiz-button" onclick="redirect('https://forms.office.com/e/eictNGmQyz')">🚀 Start de Quiz</button>
+    <button class="button map-button" onclick="redirect('https://maps.app.goo.gl/5gWngVYMJ69k84eT6')">📍 Google Maps Route</button>
+
+    <div class="spotify">
+        <h2>Lekker in de sfeer komen 🎉</h2>
+        <iframe src="https://open.spotify.com/embed/playlist/2179FQPLh7W3AJHo8yDwzK" width="300" height="380" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    </div>
+
+    <div class="weather">
+        <p>Vergeet je paraplu niet? 🌧️</p>
+        <a href="https://www.weeronline.nl/Europa/Nederland/Landgraaf/4052033" target="_blank">Weersvoorspelling per uur</a>
+    </div>
 </body>
 </html>
