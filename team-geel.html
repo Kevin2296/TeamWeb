@@ -6,66 +6,83 @@
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f2f2f2;
+      background: linear-gradient(to right, #f8f9fa, #e9ecef);
       text-align: center;
-      padding-top: 100px;
-      color: #333;
+      padding: 40px;
+      color: #343a40;
     }
     h1 {
-      font-size: 28px;
-      margin-bottom: 10px;
+      font-size: 2.2rem;
     }
-    .countdown {
-      font-size: 24px;
-      color: #0078D4;
-      margin-top: 30px;
-    }
-    .info {
+    #countdown {
+      font-size: 1.5rem;
+      color: #007bff;
       margin-top: 20px;
-      font-size: 16px;
-      color: #666;
+    }
+    a.button {
+      display: inline-block;
+      margin: 15px;
+      font-size: 1.2rem;
+      padding: 12px 24px;
+      background-color: #28a745;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+    }
+    #mapsLink {
+      color: #0069d9;
+      font-size: 1rem;
+      display: block;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
-  <h1>🕒 De quiz voor <strong>Team Geel</strong> is bijna beschikbaar!</h1>
-  <p class="info">De route opent automatisch op <strong>3 juli 2025 om 15:30 uur</strong>.</p>
-  <div class="countdown" id="countdown">Even geduld...</div>
+  <h1>⏰ De quiz voor <span style="color: #007bff;">Team Geel</span> is bijna beschikbaar!</h1>
+  <p>De route opent automatisch op <strong>3 juli 2025 om 15:30 uur</strong>.</p>
+  <p id="countdown"></p>
 
-  
+  <a id="startButton" href="#" class="button">🚀 Start de Quiz</a>
+  <a id="mapsLink" href="#" class="button" style="background-color:#ffc107;">📍 Google Maps Route</a>
 
-  <button id="startBtn" style="display:none;margin-top:30px;padding:10px 20px;font-size:18px;">Start de quiz</button>
-  <canvas id="confetti-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;"></canvas>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  <canvas id="confetti-canvas" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none;"></canvas>
+
   <script>
     const countdownEl = document.getElementById('countdown');
-    const startBtn = document.getElementById('startBtn');
+    const startBtn = document.getElementById('startButton');
+    const mapsLink = document.getElementById('mapsLink');
     const targetDate = new Date("2025-07-03T15:30:00+02:00");
+    let linksEnabled = false;
 
     function updateCountdown() {
       const now = new Date();
       const diff = targetDate - now;
-      if (diff <= 0) {
+
+      if (diff <= 0 && !linksEnabled) {
         countdownEl.innerHTML = "Het is tijd!";
-        startBtn.style.display = 'inline-block';
-      } else {
+        startBtn.href = "https://forms.gle/quizlink_geel";
+        mapsLink.href = "https://www.google.com/maps/dir/Boschstraat+30,+Maastricht/Achter+Het+Vleeshuis+13,+Maastricht";
+        linksEnabled = true;
+      } else if (!linksEnabled) {
         const d = Math.floor(diff / (1000 * 60 * 60 * 24));
         const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
         const m = Math.floor((diff / (1000 * 60)) % 60);
         const s = Math.floor((diff / 1000) % 60);
         countdownEl.innerHTML = `Nog ${d}d ${h}u ${m}m ${s}s tot de start!`;
+
+        startBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          alert("Nog even geduld! De quiz start pas om 15:30 uur.");
+        });
+        mapsLink.addEventListener("click", (e) => {
+          e.preventDefault();
+          alert("Nog even geduld! De wandelroute opent om 15:30 uur.");
+        });
       }
     }
 
     updateCountdown();
     setInterval(updateCountdown, 1000);
-
-    startBtn.addEventListener("click", () => {
-      confetti();
-      setTimeout(() => {
-        window.location.href = "https://forms.gle/quizlink_geel";
-      }, 1500);
-    });
   </script>
 </body>
 </html>
