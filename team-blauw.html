@@ -2,44 +2,43 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Quiz Unlock – Team Blauw</title>
+  <title>Quiz Unlock – {teamname}</title>
   <style>
-    body {
+    body {{
       font-family: Arial, sans-serif;
       text-align: center;
       margin-top: 100px;
-    }
-    .countdown {
+    }}
+    .countdown {{
       font-size: 24px;
       margin-top: 20px;
       color: #444;
-    }
+    }}
   </style>
 </head>
 <body>
-  <h1>🕒 De quiz voor Team Blauw is bijna beschikbaar!</h1>
-  <p class="countdown">Even geduld... de quiz opent automatisch om 15:30 uur.</p>
+  <h1>🕒 De quiz voor {teamname} is bijna beschikbaar!</h1>
+  <p class="countdown">Even geduld... de quiz opent automatisch op 3 juli 2025 om 15:30 uur.</p>
 
   <script>
-    const redirectUrl = "https://forms.gle/quizlink_blauw";
-    const target = new Date();
-    target.setHours(15, 30, 0);
+    const redirectUrl = "{quizlink}";
+    const target = new Date("{target_date}T{hour}:{minute}:00");
 
-    function updateCountdown() {
+    function updateCountdown() {{
       const now = new Date();
       const diff = target - now;
 
-      if (diff <= 0) {
+      if (diff <= 0) {{
         window.location.href = redirectUrl;
         return;
-      }
+      }}
 
       const mins = Math.floor(diff / 1000 / 60);
       const secs = Math.floor((diff / 1000) % 60);
       document.querySelector('.countdown').textContent =
-        `Nog ${mins} min ${secs < 10 ? '0' : ''}${secs} sec tot de start!`;
+        `Nog ${{mins}} min ${{secs < 10 ? '0' : ''}}${{secs}} sec tot de start!`;
       setTimeout(updateCountdown, 1000);
-    }
+    }}
 
     updateCountdown();
   </script>
