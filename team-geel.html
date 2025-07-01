@@ -18,12 +18,11 @@
 </head>
 <body>
   <h1>🕒 De quiz voor Team Geel is bijna beschikbaar!</h1>
-  <p class="countdown">Even geduld... de quiz opent automatisch om 15:30 uur.</p>
+  <p class="countdown">Even geduld... de quiz opent automatisch op 3 juli 2025 om 15:30 uur.</p>
 
   <script>
     const redirectUrl = "https://forms.gle/quizlink_geel";
-    const target = new Date();
-    target.setHours(15, 30, 0);
+    const target = new Date("2025-07-03T15:30:00");
 
     function updateCountdown() {
       const now = new Date();
