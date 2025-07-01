@@ -4,97 +4,70 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quiz Team Rood</title>
+    <title>Quiz - Team Rood</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background: linear-gradient(to bottom right, #ffffff, #f0f0f0);
+        body {{
+            font-family: 'Segoe UI', sans-serif;
+            background: #f9f9f9;
             margin: 0;
-            padding: 1em;
-        }
-        h1 {
-            color: #e63946;
-        }
-        h2 {
-            color: #1d3557;
-        }
-        .button {
-            display: inline-block;
-            padding: 15px 25px;
-            margin: 10px;
-            font-size: 16px;
-            font-weight: bold;
+            padding: 1rem;
+            text-align: center;
+        }}
+        h1 {{
+            color: #ff3c41;
+        }}
+        .button {{
+            margin: 1rem;
+            padding: 1rem 2rem;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
+            font-size: 1.2rem;
             cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .quiz-btn {
-            background-color: #2a9d8f;
             color: white;
-        }
-        .maps-btn {
-            background-color: #f4a261;
-            color: black;
-        }
-        .quiz-btn:hover, .maps-btn:hover {
-            opacity: 0.8;
-        }
-        .spotify-embed {
-            margin: 2em auto;
+        }}
+        .quiz-button {{ background-color: #28a745; }}
+        .maps-button {{ background-color: #ffc107; color: black; }}
+        iframe {{
+            border-radius: 12px;
+            margin: 1rem auto;
+            width: 100%;
             max-width: 600px;
-        }
-        iframe {
+            height: 152px;
+        }}
+        img {{
+            margin: 1rem auto;
             width: 100%;
-            height: 352px;
-            border: none;
-        }
-        .weather {
-            margin-top: 2em;
-        }
-        .weather img {
-            width: 100%;
-            max-width: 800px;
-            border-radius: 10px;
-        }
+            max-width: 600px;
+            border-radius: 12px;
+        }}
     </style>
 </head>
 <body>
-    <h1>🎉 De quiz voor <strong>Team Rood</strong> is bijna beschikbaar!</h1>
+    <h1>📣 De quiz voor <span style="color:#ff3c41">Team Rood</span> is bijna beschikbaar!</h1>
     <p>De route opent automatisch op <strong>3 juli 2025 om 15:30 uur</strong>.</p>
-    <h2 id="countdown">Timer wordt geladen...</h2>
-
-    <button class="button quiz-btn" onclick="window.open('https://forms.office.com/e/eictNGmQyz', '_blank')">🚀 Start de Quiz</button>
-    <button class="button maps-btn" onclick="window.open('https://maps.app.goo.gl/5gWngVYMJ69k84eT6', '_blank')">📍 Google Maps Route</button>
-
-    <h2> Lekker in de sfeer komen 🎉 </h2>
-    <div class="spotify-embed">
-        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/2179FQPLh7W3AJHo8yDwzK?utm_source=generator&theme=0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-    </div>
-
-    <h2> Vergeet je paraplu niet? 🌧️ </h2>
-    <div class="weather">
-        <p>Weersvoorspelling per uur</p>
-        <img src="weer-maastricht.png" alt="Weersvoorspelling Maastricht per uur">
-    </div>
-
+    <div id="countdown" style="font-size: 1.5rem; color:#ff3c41; margin-bottom: 1rem;"></div>
+    <button class="button quiz-button" onclick="window.location.href='https://forms.office.com/e/eictNGmQyz'">🚀 Start de Quiz</button>
+    <button class="button maps-button" onclick="window.location.href='https://maps.app.goo.gl/5gWngVYMJ69k84eT6'">📍 Google Maps Route</button>
+    <h2> Lekker in de sfeer komen 🎉</h2>
+    <iframe src="https://open.spotify.com/embed/playlist/2179FQPLh7W3AJHo8yDwzK?utm_source=generator" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    <h3> Vergeet je paraplu niet? 🌧️</h3>
+    <p><a href="https://www.weeronline.nl/Europa/Nederland/Landgraaf/4058349" target="_blank">Weersvoorspelling per uur</a></p>
     <script>
-        const countdownDate = new Date("2025-07-03T15:30:00").getTime();
-        const countdownEl = document.getElementById("countdown");
-        setInterval(() => {
+        const endTime = new Date("2025-07-03T13:30:00Z").getTime();
+        const countdown = document.getElementById("countdown");
+        setInterval(() => {{
             const now = new Date().getTime();
-            const distance = countdownDate - now;
+            const distance = endTime - now;
+            if (distance <= 0) {{
+                countdown.innerText = "De quiz is gestart!";
+                return;
+            }}
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            if (distance > 0) {
-                countdownEl.innerText = `Nog ${days}d ${hours}u ${minutes}m ${seconds}s tot de start!`;
-            } else {
-                countdownEl.innerText = "De quiz is gestart!";
-            }
-        }, 1000);
+            countdown.innerText = `Nog ${days}d ${hours}u ${minutes}m ${seconds}s tot de start!`;
+        }}, 1000);
     </script>
 </body>
 </html>
