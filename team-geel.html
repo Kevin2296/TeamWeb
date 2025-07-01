@@ -35,7 +35,47 @@
       color: #212529;
     }
   </style>
-</head>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/><style>
+body {
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+  padding: 20px;
+  margin: 0;
+  background: #fefefe;
+}
+h1 {
+  font-size: 5vw;
+}
+.countdown {
+  font-size: 6vw;
+  margin: 20px 0;
+}
+button {
+  font-size: 4vw;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  background-color: #f04e30;
+  color: white;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+button.enabled {
+  cursor: pointer;
+  opacity: 1;
+}
+@keyframes confetti {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(100vh) rotate(360deg); }
+}
+.confetti-piece {
+  width: 10px;
+  height: 10px;
+  position: fixed;
+  background: #f04e30;
+  animation: confetti 2s ease-out forwards;
+}
+</style></head>
 <body>
 <h1>⏰ De quiz voor <span style="color: #ffca28;">Team Geel</span> is bijna beschikbaar!</h1>
 <p>De route opent automatisch op <strong>3 juli 2025 om 15:30 uur</strong>.</p>
@@ -76,11 +116,15 @@
   </script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script><script>
 function startConfetti() {
-  confetti({
-    particleCount: 150,
-    spread: 100,
-    origin: { y: 0.6 }
-  });
+  for (let i = 0; i < 30; i++) {
+    const div = document.createElement('div');
+    div.className = 'confetti-piece';
+    div.style.left = Math.random() * 100 + 'vw';
+    div.style.backgroundColor = ['#f04e30', '#f1c40f', '#2ecc71'][Math.floor(Math.random()*3)];
+    div.style.animationDuration = (1 + Math.random()) + 's';
+    document.body.appendChild(div);
+    setTimeout(() => div.remove(), 3000);
+  }
 }
 </script></body>
 </html>
