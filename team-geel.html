@@ -1,82 +1,72 @@
+
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <meta charset="UTF-8">
-    <title>Quiz Team Geel</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            text-align: center;
-            background-color: #fff;
-            color: #222;
-        }
-        .timer {
-            font-size: 1.4em;
-            color: #e91e63;
-            margin-bottom: 20px;
-        }
-        .button {
-            padding: 12px 20px;
-            margin: 10px;
-            font-size: 16px;
-            border: none;
-            border-radius: 8px;
-            cursor: not-allowed;
-        }
-        .enabled {
-            cursor: pointer;
-        }
-        .start-btn { background-color: #4CAF50; color: white; }
-        .maps-btn { background-color: #FFC107; color: black; }
-        iframe {
-            margin-top: 10px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Team Geel</title>
+  <style>
+    body {{ font-family: Arial, sans-serif; text-align: center; padding: 20px; }}
+    h1 {{ color: black; }}
+    .countdown {{ font-size: 1.5em; color: #e91e63; margin: 10px 0; }}
+    .btn {{ padding: 10px 20px; margin: 10px; border: none; border-radius: 8px; font-size: 1em; cursor: not-allowed; }}
+    .start {{ background-color: #4CAF50; color: white; }}
+    .route {{ background-color: #FFC107; color: black; }}
+    .enabled {{ cursor: pointer; opacity: 1 !important; }}
+    iframe {{ margin-top: 10px; border-radius: 10px; border: none; }}
+  </style>
 </head>
 <body>
-    <h1>⏰ De quiz voor <span style="color: goldenrod;">Team Geel</span> is <span id="status">bijna beschikbaar!</span></h1>
-    <p>De route opent automatisch op <strong>3 juli 2025 om 15:30 uur</strong>.</p>
-    <div class="timer" id="timer"></div>
+  <h1>⏰ De quiz voor <span style="color: #ffc107">Team Geel</span> is <span id="status">bijna beschikbaar</span>!</h1>
+  <p>De route opent automatisch op <strong>3 juli 2025 om 15:30 uur</strong>.</p>
+  <div class="countdown" id="countdown"></div>
+  <div>
+    <a id="quizBtn" href="https://forms.office.com/e/eictNGmQyz" class="btn start" target="_blank">🚀 Start de Quiz</a>
+    <a id="mapBtn" href="https://maps.app.goo.gl/jFqw6443zhepBNDT9" class="btn route" target="_blank">📍 Google Maps Route</a>
+  </div>
 
-    <button id="quizBtn" class="button start-btn" disabled>🚀 Start de Quiz</button>
-    <button id="mapsBtn" class="button maps-btn" disabled>📍 Google Maps Route</button>
+  <h2>Lekker in de sfeer komen 🎉</h2>
+  <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/2179FQPLh7W3AJHo8yDwzK?utm_source=generator" width="80%" height="152" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 
-    <h2>Lekker in de sfeer komen 🎉</h2>
-    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/2179FQPLh7W3AJHo8yDwzK" width="80%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+  <h2>Het weer in Maastricht 🌤️🌧️</h2>
+  <iframe src="https://gadgets.buienradar.nl/gadget/zoommap/?lat=50.84833&lng=5.68889&overname=2&zoom=8&naam=Maastricht&size=2b&voor=1" width="330" height="330" scrolling="no"></iframe>
 
-    <h2>Het weer in Maastricht 🌤️🌧️</h2>
-    <iframe src="https://gadgets.buienradar.nl/gadget/zoommap/?lat=50.84833&lng=5.68889&overname=2&zoom=8&naam=Maastricht&size=2b&voor=1" scrolling="no" width="330" height="330" frameborder="no"></iframe>
+  <script>
+    const targetDate = new Date("2025-07-03T15:30:00+02:00").getTime();
+    const countdownEl = document.getElementById("countdown");
+    const statusEl = document.getElementById("status");
+    const quizBtn = document.getElementById("quizBtn");
+    const mapBtn = document.getElementById("mapBtn");
 
-    <script>
-        const releaseTime = new Date("2025-07-03T13:30:00Z");  // 15:30 NL = 13:30 UTC
-        const quizBtn = document.getElementById("quizBtn");
-        const mapsBtn = document.getElementById("mapsBtn");
-        const timer = document.getElementById("timer");
-        const status = document.getElementById("status");
+    function updateCountdown() {{
+      const now = new Date().getTime();
+      const distance = targetDate - now;
 
-        function updateCountdown() {
-            const now = new Date();
-            const diff = releaseTime - now;
+      if (distance > 0) {{
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        countdownEl.innerHTML = `Nog ${days}d ${hours}u ${minutes}m ${seconds}s tot de start!`;
+      }} else {{
+        countdownEl.innerHTML = "De quiz is gestart!";
+        statusEl.innerText = "nu beschikbaar";
+        quizBtn.classList.add("enabled");
+        mapBtn.classList.add("enabled");
+        quizBtn.style.pointerEvents = "auto";
+        mapBtn.style.pointerEvents = "auto";
+        quizBtn.style.cursor = "pointer";
+        mapBtn.style.cursor = "pointer";
+      }}
+    }}
 
-            if (diff <= 0) {
-                timer.textContent = "De quiz is beschikbaar!";
-                quizBtn.disabled = false;
-                mapsBtn.disabled = false;
-                quizBtn.classList.add("enabled");
-                mapsBtn.classList.add("enabled");
-                quizBtn.onclick = () => window.location.href = "https://forms.office.com/e/eictNGmQyz";
-                mapsBtn.onclick = () => window.location.href = "https://maps.app.goo.gl/jFqw6443zhepBNDT9";
-                status.textContent = "beschikbaar!";
-            } else {
-                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-                const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-                const m = Math.floor((diff / 1000 / 60) % 60);
-                const s = Math.floor((diff / 1000) % 60);
-                timer.textContent = `Nog ${d}d ${h}u ${m}m ${s}s tot de start!`;
-                setTimeout(updateCountdown, 1000);
-            }
-        }
-        updateCountdown();
-    </script>
+    quizBtn.style.pointerEvents = "none";
+    mapBtn.style.pointerEvents = "none";
+    quizBtn.style.opacity = 0.5;
+    mapBtn.style.opacity = 0.5;
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
 </body>
 </html>
