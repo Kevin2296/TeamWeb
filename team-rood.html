@@ -1,24 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="nl">
 <head>
   <meta charset="UTF-8">
   <title>Quiz Unlock – Team Rood</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f2f2f2;
       text-align: center;
-      margin-top: 100px;
+      padding-top: 100px;
+      color: #333;
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
     }
     .countdown {
       font-size: 24px;
+      color: #0078D4;
+      margin-top: 30px;
+    }
+    .info {
       margin-top: 20px;
-      color: #444;
+      font-size: 16px;
+      color: #666;
     }
   </style>
 </head>
 <body>
-  <h1>🕒 De quiz voor Team Rood is bijna beschikbaar!</h1>
-  <p class="countdown">Even geduld... de quiz opent automatisch op 3 juli 2025 om 15:30 uur.</p>
+  <h1>🕒 De quiz voor <strong>Team Rood</strong> is bijna beschikbaar!</h1>
+  <p class="info">De route opent automatisch op <strong>3 juli 2025 om 15:30 uur</strong>.</p>
+  <div class="countdown" id="countdown">Even geduld...</div>
 
   <script>
     const redirectUrl = "https://forms.gle/quizlink_rood";
@@ -33,10 +45,15 @@
         return;
       }
 
-      const mins = Math.floor(diff / 1000 / 60);
-      const secs = Math.floor((diff / 1000) % 60);
-      document.querySelector('.countdown').textContent =
-        `Nog ${mins} min ${secs < 10 ? '0' : ''}${secs} sec tot de start!`;
+      const totalSeconds = Math.floor(diff / 1000);
+      const days = Math.floor(totalSeconds / 86400);
+      const hours = Math.floor((totalSeconds % 86400) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+
+      document.getElementById("countdown").innerHTML =
+        `Nog ${days}d ${hours}u ${minutes}m ${seconds < 10 ? '0' : ''}{seconds}s tot de start!`;
+
       setTimeout(updateCountdown, 1000);
     }
 
