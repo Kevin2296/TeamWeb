@@ -1,47 +1,71 @@
 <!DOCTYPE html>
-<html>
+<html lang="nl">
 <head>
   <meta charset="UTF-8">
   <title>Quiz Unlock – Team Blauw</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f2f2f2;
       text-align: center;
-      margin-top: 100px;
+      padding-top: 100px;
+      color: #333;
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
     }
     .countdown {
       font-size: 24px;
+      color: #0078D4;
+      margin-top: 30px;
+    }
+    .info {
       margin-top: 20px;
-      color: #444;
+      font-size: 16px;
+      color: #666;
     }
   </style>
 </head>
 <body>
-  <h1>🕒 De quiz voor Team Blauw is bijna beschikbaar!</h1>
-  <p class="countdown">Even geduld... de quiz opent automatisch om 15:30 uur.</p>
+  <h1>🕒 De quiz voor <strong>Team Blauw</strong> is bijna beschikbaar!</h1>
+  <p class="info">De route opent automatisch op <strong>3 juli 2025 om 15:30 uur</strong>.</p>
+  <div class="countdown" id="countdown">Even geduld...</div>
 
+  
+
+  <button id="startBtn" style="display:none;margin-top:30px;padding:10px 20px;font-size:18px;">Start de quiz</button>
+  <canvas id="confetti-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;"></canvas>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
   <script>
-    const redirectUrl = "https://forms.gle/quizlink_blauw";
-    const target = new Date();
-    target.setHours(15, 30, 0);
+    const countdownEl = document.getElementById('countdown');
+    const startBtn = document.getElementById('startBtn');
+    const targetDate = new Date("2025-07-03T15:30:00+02:00");
 
     function updateCountdown() {
       const now = new Date();
-      const diff = target - now;
-
+      const diff = targetDate - now;
       if (diff <= 0) {
-        window.location.href = redirectUrl;
-        return;
+        countdownEl.innerHTML = "Het is tijd!";
+        startBtn.style.display = 'inline-block';
+      } else {
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const m = Math.floor((diff / (1000 * 60)) % 60);
+        const s = Math.floor((diff / 1000) % 60);
+        countdownEl.innerHTML = `Nog ${d}d ${h}u ${m}m ${s}s tot de start!`;
       }
-
-      const mins = Math.floor(diff / 1000 / 60);
-      const secs = Math.floor((diff / 1000) % 60);
-      document.querySelector('.countdown').textContent =
-        `Nog ${mins} min ${secs < 10 ? '0' : ''}${secs} sec tot de start!`;
-      setTimeout(updateCountdown, 1000);
     }
 
     updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    startBtn.addEventListener("click", () => {
+      confetti();
+      setTimeout(() => {
+        window.location.href = "https://forms.gle/quizlink_blauw";
+      }, 1500);
+    });
   </script>
 </body>
 </html>
