@@ -5,83 +5,78 @@
     <title>Quiz Team Blauw</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: #fefefe;
-            margin: 0;
-            padding: 20px;
+            font-family: 'Segoe UI', sans-serif;
             text-align: center;
+            background-color: #fff;
+            color: #222;
         }
-        h1 {
-            color: #333;
+        .timer {
+            font-size: 1.4em;
+            color: #e91e63;
+            margin-bottom: 20px;
         }
-        .hidden {
-            pointer-events: none;
-            opacity: 0.5;
-        }
-        iframe {
-            margin-top: 20px;
-        }
-        button {
-            padding: 15px 25px;
-            font-size: 18px;
+        .button {
+            padding: 12px 20px;
             margin: 10px;
+            font-size: 16px;
             border: none;
             border-radius: 8px;
+            cursor: not-allowed;
+        }
+        .enabled {
             cursor: pointer;
-            background-color: #ffd700;
+        }
+        .start-btn { background-color: #4CAF50; color: white; }
+        .maps-btn { background-color: #FFC107; color: black; }
+        iframe {
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>Welkom bij de quizwandeling - Team Blauw</h1>
-    <p id="statusText">De quiz is bijna beschikbaar...</p>
+    <h1>⏰ De quiz voor <span style="color: blue;">Team Blauw</span> is <span id="status">bijna beschikbaar!</span></h1>
+    <p>De route opent automatisch op <strong>3 juli 2025 om 15:30 uur</strong>.</p>
+    <div class="timer" id="timer"></div>
 
-    <div>
-        <button id="quizBtn" class="hidden">Start de Quiz</button>
-        <button id="mapsBtn" class="hidden">Google Maps Route</button>
-    </div>
+    <button id="quizBtn" class="button start-btn" disabled>🚀 Start de Quiz</button>
+    <button id="mapsBtn" class="button maps-btn" disabled>📍 Google Maps Route</button>
 
-    <h2>Live Buienradar Maastricht</h2>
-    
-<iframe src="https://gadgets.buienradar.nl/gadget/zoommap/?lat=50.84833&lng=5.68889&overname=2&zoom=8&naam=Maastricht&size=2b&voor=1" scrolling=no width=330 height=330 frameborder=no></iframe>
+    <h2>Lekker in de sfeer komen 🎉</h2>
+    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/2179FQPLh7W3AJHo8yDwzK" width="80%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 
-
-    <h2>Sfeermuziek 🎵</h2>
-    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/2179FQPLh7W3AJHo8yDwzK" width="80%" height="152" frameBorder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    <h2>Het weer in Maastricht 🌤️🌧️</h2>
+    <iframe src="https://gadgets.buienradar.nl/gadget/zoommap/?lat=50.84833&lng=5.68889&overname=2&zoom=8&naam=Maastricht&size=2b&voor=1" scrolling="no" width="330" height="330" frameborder="no"></iframe>
 
     <script>
-        const releaseTime = new Date("2025-07-03T15:30:00");
+        const releaseTime = new Date("2025-07-03T13:30:00Z");  // 15:30 NL = 13:30 UTC
         const quizBtn = document.getElementById("quizBtn");
         const mapsBtn = document.getElementById("mapsBtn");
-        const statusText = document.getElementById("statusText");
+        const timer = document.getElementById("timer");
+        const status = document.getElementById("status");
 
-        function base16Decode(hex) {
-            return decodeURIComponent(hex.match(/.{1,2}/g).map(function(byte) {
-                return '%' + byte;
-            }).join(''));
-        }
-
-        const quizUrl = base16Decode("68747470733a2f2f666f726d732e6f66666963652e636f6d2f652f656963744e476d51797a");
-        const mapsUrl = base16Decode("68747470733a2f2f6d6170732e6170702e676f6f2e676c2f32426f4b384c636a4755684b7a48783841");
-
-        function checkTime() {
+        function updateCountdown() {
             const now = new Date();
-            if (now >= releaseTime) {
-                quizBtn.classList.remove("hidden");
-                mapsBtn.classList.remove("hidden");
-                statusText.textContent = "Veel succes met de quiz!";
+            const diff = releaseTime - now;
+
+            if (diff <= 0) {
+                timer.textContent = "De quiz is beschikbaar!";
+                quizBtn.disabled = false;
+                mapsBtn.disabled = false;
+                quizBtn.classList.add("enabled");
+                mapsBtn.classList.add("enabled");
+                quizBtn.onclick = () => window.location.href = "https://forms.office.com/e/eictNGmQyz";
+                mapsBtn.onclick = () => window.location.href = "https://maps.app.goo.gl/2BoK8LcjGUhKzHx8A";
+                status.textContent = "beschikbaar!";
+            } else {
+                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                const m = Math.floor((diff / 1000 / 60) % 60);
+                const s = Math.floor((diff / 1000) % 60);
+                timer.textContent = `Nog ${d}d ${h}u ${m}m ${s}s tot de start!`;
+                setTimeout(updateCountdown, 1000);
             }
         }
-
-        quizBtn.onclick = function() {
-            window.open(quizUrl, "_blank");
-        };
-        mapsBtn.onclick = function() {
-            window.open(mapsUrl, "_blank");
-        };
-
-        checkTime();
-        setInterval(checkTime, 1000);
+        updateCountdown();
     </script>
 </body>
 </html>
