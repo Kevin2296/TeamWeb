@@ -19,30 +19,6 @@
     .section {
       margin-bottom: 30px;
     }
-    ul {
-      list-style: none;
-      padding-left: 0;
-    }
-    li::before {
-      content: "✔️ ";
-      margin-right: 5px;
-    }
-    .button {
-      display: inline-block;
-      background-color: #d95c00;
-      color: white;
-      padding: 10px 16px;
-      border-radius: 6px;
-      text-decoration: none;
-      margin-top: 5px;
-      margin-bottom: 10px;
-    }
-    .parking {
-      background: #f3eee6;
-      padding: 15px;
-      margin-bottom: 20px;
-      border-left: 5px solid #d95c00;
-    }
     .map-button {
       display: inline-block;
       background-color: #444;
@@ -53,6 +29,23 @@
       text-decoration: none;
       margin-top: 6px;
     }
+    .parking {
+      background: #f3eee6;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-left: 5px solid #d95c00;
+    }
+    .checklist label {
+      display: block;
+      margin: 8px 0;
+    }
+    .celebrate {
+      display: none;
+      margin-top: 20px;
+      font-size: 20px;
+      color: #d95c00;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -61,7 +54,7 @@
 
   <div class="section">
     <h2>🕒 Planning</h2>
-    <ul>
+    <ul style="list-style: none; padding-left: 0;">
       <li>13.00 uur – Genieten van een snack en drankje in de lounge op de 6</li>
       <li>13.30 uur – Vertrekken richting Maastricht</li>
       <li>14.15 uur – Verzamelen bij Olround Maastricht</li>
@@ -78,14 +71,17 @@
     <a class="map-button" href="https://maps.app.goo.gl/RdWANaYDpkUrThpY8" target="_blank">Google Maps Link</a>
   </div>
 
-<div class="section">
-  <h2>🎒 Checklist</h2>
-  <label><input type="checkbox"> Goede schoenen</label><br>
-  <label><input type="checkbox"> Eventueel een flesje water</label><br>
-  <label><input type="checkbox"> Je goede humeur!</label><br>
-  <label><input type="checkbox"> Telefoon opgeladen</label><br>
-  <label><input type="checkbox"> QR-code bij de hand</label><br>
-</div>
+  <div class="section checklist">
+    <h2>🎒 Checklist</h2>
+    <label><input type="checkbox" class="check-item"> Goede schoenen</label>
+    <label><input type="checkbox" class="check-item"> Eventueel een flesje water</label>
+    <label><input type="checkbox" class="check-item"> Je goede humeur!</label>
+    <label><input type="checkbox" class="check-item"> Telefoon opgeladen</label>
+  </div>
+
+  <div id="celebration" class="celebrate">
+    🎉 Je bent er helemaal klaar voor! Veel plezier vandaag! 🧡
+  </div>
 
   <div class="section">
     <h2>🚗 Parkeertips</h2>
@@ -115,6 +111,18 @@
       <a class="map-button" href="https://maps.app.goo.gl/ykHVuj67vTvnX7r9A" target="_blank">Google Maps Link</a>
     </div>
   </div>
+
+  <script>
+    const checkboxes = document.querySelectorAll('.check-item');
+    const celebration = document.getElementById('celebration');
+
+    checkboxes.forEach(cb => {
+      cb.addEventListener('change', () => {
+        const allChecked = Array.from(checkboxes).every(i => i.checked);
+        celebration.style.display = allChecked ? 'block' : 'none';
+      });
+    });
+  </script>
 
 </body>
 </html>
