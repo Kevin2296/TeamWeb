@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Team Blauw</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fffdf8;
+      color: #333;
+      padding: 20px;
+      max-width: 700px;
+      margin: auto;
+    }
+    h1, h2 {
+      color: #d95c00;
+    }
+    .section {
+      margin-bottom: 30px;
+    }
+    .map-button {
+      display: inline-block;
+      background-color: #444;
+      color: white;
+      padding: 6px 12px;
+      font-size: 14px;
+      border-radius: 4px;
+      text-decoration: none;
+      margin-top: 6px;
+    }
+    .parking {
+      background: #f3eee6;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-left: 5px solid #d95c00;
+    }
+    .checklist label {
+      display: block;
+      margin: 8px 0;
+    }
+    .celebrate {
+      display: none;
+      margin-top: 20px;
+      font-size: 20px;
+      color: #d95c00;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🧡 Welkom Team Blauw!</h1>
+
+  <div class="section">
+    <h2>🕒 Planning</h2>
+    <ul style="list-style: none; padding-left: 0;">
+      <li><span style="color: #d95c00;">❯</span> 13.00 uur: genieten van een snack en drankje in de lounge op de 6</li>
+      <li><span style="color: #d95c00;">❯</span> 13.30 uur: vertrekken richting Maastricht</li>
+      <li><span style="color: #d95c00;">❯</span> 14.15 uur: verzamelen bij Olround Maastricht</li>
+      <li><span style="color: #d95c00;">❯</span> 14.30 – 15.30 uur: Prison Island</li>
+      <li><span style="color: #d95c00;">❯</span> 15.30 – 16.30 uur: quiz-time</li>
+      <li><span style="color: #d95c00;">❯</span> 17.00 uur: gezellig samen eten bij La Cubanita</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>📍 Verzamellocatie</h2>
+    <p><strong>Olround Maastricht</strong><br>
+    Boschstraat 30, 6211 AX Maastricht</p>
+    <a class="map-button" href="https://maps.app.goo.gl/RdWANaYDpkUrThpY8" target="_blank">Google Maps Link</a>
+  </div>
+
+  <div class="section checklist">
+    <h2>🎒 Checklist</h2>
+    <label><input type="checkbox" class="check-item"> Goede schoenen</label>
+    <label><input type="checkbox" class="check-item"> Eventueel een flesje water</label>
+    <label><input type="checkbox" class="check-item"> Je goede humeur!</label>
+    <label><input type="checkbox" class="check-item"> Telefoon opgeladen</label>
+  </div>
+
+  <div id="celebration" class="celebrate">
+    🎉 Je bent er helemaal klaar voor! Veel plezier vandaag! 🧡
+  </div>
+
+  <div class="section">
+    <h2>🗺️ Team Blauw route</h2>
+    <a class="map-button" href="https://maps.app.goo.gl/2BoK8LcjGUhKzHx8A" target="_blank">Google Maps Route</a>
+  </div>
+
+  <div class="section">
+    <h2>🚗 Parkeertips</h2>
+
+    <div class="parking">
+      <strong>P+R Noord (aanrader!)</strong><br>
+      Limmelderweg 4, 6222 PB Maastricht<br>
+      – Buslijn 10 naar de stad<br>
+      – Retourticket: €2,45 p.p. (€6,15 voor 3–5 personen)<br>
+      <a class="map-button" href="https://maps.app.goo.gl/Gf5inPDEar16ekn29" target="_blank">Google Maps Link</a>
+    </div>
+
+    <div class="parking">
+      <strong>Parkeerterrein Sphinx</strong><br>
+      Frontensingel, 6211 SC Maastricht<br>
+      – Max dagtarief: €17,00<br>
+      – €1,50 per 32 min. of deel daarvan<br>
+      <a class="map-button" href="https://maps.app.goo.gl/i39EkWAnwq1VJTgN8" target="_blank">Google Maps Link</a>
+    </div>
+
+    <div class="parking">
+      <strong>Q-Park Frontenpark</strong><br>
+      Frontensingel, 6219 PE Maastricht<br>
+      – Overdekte garage op loopafstand<br>
+      – Max dagtarief: €17,00<br>
+      – €1,50 per 32 min. of deel daarvan<br>
+      <a class="map-button" href="https://maps.app.goo.gl/ykHVuj67vTvnX7r9A" target="_blank">Google Maps Link</a>
+    </div>
+  </div>
+
+  <script>
+    const checkboxes = document.querySelectorAll('.check-item');
+    const celebration = document.getElementById('celebration');
+    checkboxes.forEach(cb => {
+      cb.addEventListener('change', () => {
+        const allChecked = Array.from(checkboxes).every(i => i.checked);
+        celebration.style.display = allChecked ? 'block' : 'none';
+      });
+    });
+  </script>
+
+</body>
+</html>
